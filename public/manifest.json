@@ -1,0 +1,15 @@
+{
+  "short_name": "Music4b",
+  "name": "Admin Page Music4b",
+  "icons": [
+    {
+      "src": "sportify.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
