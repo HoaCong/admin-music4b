@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import ModalBlock from "../../components/Account/ModalBlock";
-import ToggleSwitch from "../../components/Account/ToggleSwitch";
+import ModalBlock from "../../components/Modal";
+import ToggleSwitch from "../../components/ToggleSwitch";
 import TemplateContent from "../../layouts/components/TemplateContent";
 
 function Account(props) {
   const [data, setData] = useState(null);
   return (
     <>
-      <TemplateContent title="Danh sách tài khoản">
+      <TemplateContent title="Danh sách người dùng">
         <table className="table">
           <thead>
             <tr>
@@ -33,7 +33,7 @@ function Account(props) {
           </tbody>
         </table>
       </TemplateContent>
-      <ModalBlock title="Khóa tài khoản" content={"haha" + data} />
+      <ModalBlock title="Khóa tài khoản">haha {data}</ModalBlock>
     </>
   );
 }

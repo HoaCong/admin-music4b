@@ -2,17 +2,14 @@ import React from "react";
 
 function Header(props) {
   return (
-    <nav
-      className="navbar navbar-expand-lg px-3 navbar-light"
-      style={{ backgroundColor: "#e3f2fd" }}
-    >
+    <nav className="navbar navbar-expand-lg px-3 navbar-light bg-secondary">
       <a className="navbar-brand" href="/#">
         Admin Dashboard
       </a>
       <div className="dropdown ms-auto">
         <a
           href="/#"
-          className="d-flex align-items-center text-decoration-none dropdown-toggle"
+          className="d-flex align-items-center text-decoration-none dropdown-toggle text-black"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >

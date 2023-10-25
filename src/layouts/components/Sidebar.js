@@ -4,28 +4,33 @@ import config from "../../config";
 
 function Sidebar(props) {
   return (
-    <div className="col-4 col-lg-2 sidebar min-vh-100">
-      <ul className="nav flex-column">
-        <li className="nav-item bg-success mb-2">
-          <NavLink to={config.routes.home} className="nav-link text-white">
-            Tổng quan
-          </NavLink>
-        </li>
-        <li className="nav-item bg-success mb-2">
-          <NavLink to={config.routes.account} className="nav-link text-white">
-            Danh sách người dùng
-          </NavLink>
-        </li>
-        <li className="nav-item bg-success">
-          <NavLink
-            to={config.routes.manage_song}
-            className="nav-link text-white"
-          >
-            Quản lý bài hát
-          </NavLink>
-        </li>
-      </ul>
-    </div>
+    <ul className="nav flex-column mt-2">
+      <NavLink
+        to={config.routes.home}
+        className="nav-item mb-2 btn btn-secondary text-start"
+      >
+        <i className="fas fa-home text-center" style={{ width: "24px" }}></i>{" "}
+        Tổng quan
+      </NavLink>
+      <NavLink
+        to={config.routes.account}
+        className="nav-item mb-2 btn btn-secondary text-start"
+      >
+        <i className="fas fa-users text-center" style={{ width: "24px" }}></i>{" "}
+        Danh sách người dùng
+      </NavLink>
+
+      <NavLink
+        to={config.routes.manage_song}
+        className="nav-item btn btn-secondary text-start"
+      >
+        <i
+          className="fas fa-sliders-h text-center"
+          style={{ width: "24px" }}
+        ></i>{" "}
+        Quản lý bài hát
+      </NavLink>
+    </ul>
   );
 }
 

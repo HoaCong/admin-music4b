@@ -9,9 +9,13 @@ const DefaultLayout = ({ children }) => {
       <div className="container-fluid">
         <div className="row">
           <Header />
-          <div className="mt-3"></div>
-          <Sidebar />
-          <div className="col-8 col-lg-10 main-content">{children}</div>
+          <div
+            className="col-4 col-lg-2 sidebar min-vh-100"
+            style={{ background: "rgb(219, 219, 219)" }}
+          >
+            <Sidebar />
+          </div>
+          <div className="col-8 col-lg-10 main-content mt-2">{children}</div>
         </div>
       </div>
     </>

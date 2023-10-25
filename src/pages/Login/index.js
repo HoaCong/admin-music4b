@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
 import "./index.css";
-function index(props) {
+function Login(props) {
   return (
     <section className="vh-100">
       <div className="container-fluid h-custom">
@@ -15,93 +14,38 @@ function index(props) {
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form>
-              <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-floating mx-1"
-                >
-                  <i className="fab fa-facebook-f"></i>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary btn-floating mx-1"
-                >
-                  <i className="fab fa-twitter"></i>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary btn-floating mx-1"
-                >
-                  <i className="fab fa-google"></i>
-                </button>
-              </div>
-
               <div className="divider d-flex align-items-center my-4">
-                <p className="text-center fw-bold mx-3 mb-0">Or</p>
+                <h1 className="text-center mx-3 mb-0 font-bold">ĐĂNG NHẬP</h1>
               </div>
 
               <div className="form-floating mb-3">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  placeholder="name@example.com"
-                />
+                <input type="email" className="form-control" id="email" />
                 <label for="email">Email address</label>
               </div>
 
               <div className="form-floating mb-3">
-                <input
-                  type="password"
-                  className="form-control"
-                  id="pwd"
-                  placeholder="Password"
-                />
+                <input type="password" className="form-control" id="pwd" />
                 <label for="pwd">Password</label>
               </div>
 
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="form-check mb-0">
-                  <input
-                    className="form-check-input me-2"
-                    type="checkbox"
-                    value=""
-                    id="remember-me"
-                  />
-                  <label className="form-check-label" for="remember-me">
-                    Remember me
-                  </label>
-                </div>
-                <a href="#!" className="text-body">
-                  Forgot password?
-                </a>
-              </div>
-
-              <div className="text-center text-lg-start mt-2 pt-2">
-                <button type="button" className="btn btn-primary btn-lg px-3">
-                  Login
+              <div className="text-center">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-lg px-3 w-100"
+                  style={{ width: 200 }}
+                >
+                  Đăng nhập
                 </button>
-                <p className="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?
-                  <a href="#!" className="link-danger ms-1">
-                    Register
-                  </a>
-                </p>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div className="text-center py-4 px-4 px-xl-5 bg-primary text-white">
+      <div className="text-center py-4 px-4 px-xl-5 bg-secondary text-white">
         Copyright © 2023. All rights reserved.
       </div>
     </section>
   );
 }
 
-index.propTypes = {};
-
-export default index;
+export default Login;

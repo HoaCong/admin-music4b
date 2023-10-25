@@ -3,7 +3,7 @@ import React from "react";
 
 function ModalBlock({
   title = "Modal Title",
-  content = "...",
+  children = "...",
   callback = () => {},
 }) {
   return (
@@ -27,7 +27,7 @@ function ModalBlock({
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">{content}</div>
+          <div className="modal-body">{children}</div>
           <div className="modal-footer">
             <button
               type="button"
@@ -52,7 +52,7 @@ function ModalBlock({
 
 ModalBlock.propTypes = {
   title: PropTypes.string,
-  content: PropTypes.string,
+  children: PropTypes.any,
   callback: PropTypes.func,
 };
 
