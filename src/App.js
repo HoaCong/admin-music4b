@@ -1,9 +1,9 @@
+import ToastSnackbar from "components/ToastSnackbar";
 import CheckLoginMiddleware from "middleware/checkToken";
 import { Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "./layouts";
 import { publicRoutes } from "./routes";
-
 function App() {
   return (
     <div className="App">
@@ -27,6 +27,7 @@ function App() {
           })}
         </Routes>
       </CheckLoginMiddleware>
+      <ToastSnackbar />
     </div>
   );
 }

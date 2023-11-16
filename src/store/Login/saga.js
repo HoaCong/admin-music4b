@@ -1,6 +1,4 @@
 import axios from "axios";
-import { ENDPOINT } from "constants/routerApi";
-import { post } from "helper/ajax";
 import { all, call, put, takeLeading } from "redux-saga/effects";
 import { actionLoginFailed, actionLoginSuccess } from "./action";
 import * as ActionTypes from "./constant";
