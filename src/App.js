@@ -1,12 +1,13 @@
+import CheckLoginMiddleware from "middleware/checkToken";
 import { Fragment } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "./layouts";
 import { publicRoutes } from "./routes";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <CheckLoginMiddleware>
         <Routes>
           {publicRoutes.map((route, index) => {
             const Page = route.component;
@@ -25,8 +26,8 @@ function App() {
             );
           })}
         </Routes>
-      </div>
-    </Router>
+      </CheckLoginMiddleware>
+    </div>
   );
 }
 
