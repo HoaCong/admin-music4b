@@ -54,7 +54,7 @@ function Login() {
   const handleSubmit = () => {
     const tmpKey = Object.keys(dataLogin);
     let validates = true;
-    // let formData = new FormData();
+    let formData = new FormData();
 
     tmpKey.forEach((key) => {
       if (dataLogin[key] === "") {
@@ -66,10 +66,10 @@ function Login() {
       }
     });
     if (validates) {
-      // formData.append("taikhoan", dataLogin.username);
-      // formData.append("matkhau", dataLogin.password);
-      // onLogin(formData);
-      onLogin({ taikhoan: dataLogin.username, matkhau: dataLogin.password });
+      formData.append("taikhoan", dataLogin.username);
+      formData.append("matkhau", dataLogin.password);
+      onLogin(formData);
+      // onLogin({ taikhoan: dataLogin.username, matkhau: dataLogin.password });
     }
   };
 

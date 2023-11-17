@@ -6,7 +6,7 @@ import * as ActionTypes from "./constant";
 function* callApiLogin({ formData }) {
   try {
     const response = yield call(() =>
-      axios.post("http://localhost:3101/loginphp", formData, {})
+      axios.post(process.env.BE_API + "/dangnhapadmin.php", formData, {})
     );
 
     if (+response.data.success) {

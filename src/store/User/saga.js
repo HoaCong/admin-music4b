@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ENDPOINT } from "constants/routerApi";
 import { all, call, put, takeLatest, takeLeading } from "redux-saga/effects";
 import { addToast } from "store/Toast/action";
 import {
@@ -12,7 +11,7 @@ import * as ActionTypes from "./constant";
 function* callApiList() {
   try {
     const response = yield call(() =>
-      axios.get("http://localhost:3101/listuser")
+      axios.get(process.env.BE_API + "/getalluser.php")
     );
     if (+response.data.success) {
       yield put(actionGetListSuccess(response.data.user_details.user_details));
@@ -24,12 +23,13 @@ function* callApiList() {
 
 function* callApiActive({ data }) {
   try {
+    const formData = new FormData();
+    formData.append("username", data.UserName);
+    formData.append("active", +!+data.active);
     const response = yield call(() =>
-      axios.post("http://localhost:3101/activeuserphp", {
-        username: data.UserName,
-        active: +!+data.active,
-      })
+      axios.post(process.env.BE_API + "/updateactive.php", formData)
     );
+
     if (+response.data.success) {
       yield put(actionActiveSuccess(data));
       yield put(
