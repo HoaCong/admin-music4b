@@ -4,7 +4,7 @@ import _isEmpty from "lodash/isEmpty";
 import _omit from "lodash/omit";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionAdd, actionEdit, actionGetList } from "store/Song/action";
+import { actionAdd, actionEdit } from "store/Song/action";
 import ModalSongCOM from "../../components/Modal";
 import { parseData } from "./helper";
 

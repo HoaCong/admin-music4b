@@ -11,7 +11,7 @@ import ModalSong from "./ModalSong";
 function ManageSong() {
   const {
     listStatus: { isLoading, isSuccess },
-    actionStatus: { isLoading: actionLoading, isSuccess: actionSuccess },
+    actionStatus: { isLoading: actionLoading },
     list,
   } = useSelector((state) => state.songReducer);
   const { category } = useSelector((state) => state.categoryReducer);
