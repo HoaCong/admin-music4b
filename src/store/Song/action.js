@@ -15,9 +15,9 @@ export const actionGetListFailed = (error) => ({
   error,
 });
 
-export const actionAdd = (params) => ({
+export const actionAdd = (formData) => ({
   type: ActionTypes.ADD,
-  params,
+  formData,
 });
 
 export const actionAddSuccess = (payload) => ({
@@ -30,9 +30,9 @@ export const actionAddFailed = (error) => ({
   error,
 });
 
-export const actionEdit = (params) => ({
+export const actionEdit = (formData) => ({
   type: ActionTypes.EDIT,
-  params,
+  formData,
 });
 
 export const actionEditSuccess = (payload) => ({

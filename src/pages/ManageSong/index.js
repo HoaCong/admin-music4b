@@ -1,28 +1,61 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import CustomTooltip from "components/CustomTooltip";
+import _size from "lodash/size";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetList, resetData } from "store/Song/action";
-import ModalAddSong from "../../components/Modal";
+import { actionDelete, actionGetList, resetData } from "store/Song/action";
 import TemplateContent from "../../layouts/components/TemplateContent";
+import ModalSong from "./ModalSong";
 
 function ManageSong() {
   const {
-    listStatus: { isLoading },
+    listStatus: { isLoading, isSuccess },
     actionStatus: { isLoading: actionLoading, isSuccess: actionSuccess },
     list,
   } = useSelector((state) => state.songReducer);
+  const { category } = useSelector((state) => state.categoryReducer);
 
   const dispatch = useDispatch();
-  const onGetListUser = () => dispatch(actionGetList());
+  const onGetListSong = () => dispatch(actionGetList());
+  const onDeleteSong = (body) => dispatch(actionDelete(body));
   const onResetData = () => dispatch(resetData());
+
+  const [detail, setDetail] = useState({
+    detail: {},
+    visible: false,
+    type: "",
+  });
+
+  const [tooltip, setTooltip] = useState({
+    target: null,
+    visible: false,
+    id: null,
+  });
 
   useEffect(() => {
     if (!isLoading) {
-      onGetListUser();
+      onGetListSong();
     }
     return () => {
       onResetData();
     };
   }, []);
+
+  const getInfo = (array, key, value) => {
+    const demo = array.find((item) => {
+      return +item[key] === +value;
+    });
+    return demo || {};
+  };
+
+  const onCloseTooltip = () => {
+    setTooltip({
+      visible: false,
+      target: null,
+      id: null,
+    });
+  };
 
   return (
     <>
@@ -30,14 +63,20 @@ function ManageSong() {
         title="Quản lý bài hát"
         showNew
         btnProps={{
-          "data-bs-toggle": "modal",
-          "data-bs-target": "#modal",
+          onClick: () => {
+            setDetail({
+              detail: {},
+              visible: true,
+              type: "create",
+            });
+          },
         }}
       >
         <div
+          className="custom-scrollbar"
           style={{
             overflow: "scroll",
-            maxHeight: 500,
+            maxHeight: "75vh",
           }}
         >
           <table className="table">
@@ -46,85 +85,176 @@ function ManageSong() {
                 <th scope="col" style={{ maxWidth: "max-content" }}>
                   #
                 </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
                   Tên bài hát
                 </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
                   Tên ca sĩ
                 </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
-                  Thể loại{" "}
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
+                  Hình ảnh
                 </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
-                  Top thịnh hành
-                </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
                   Bài hát
                 </th>
-                <th scope="col" style={{ maxWidth: "max-content" }}>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
+                  Chủ đề
+                </th>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 150 }}
+                >
+                  Top thịnh hành
+                </th>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 150 }}
+                >
+                  Phổ biến
+                </th>
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 150 }}
+                >
+                  Playlist
+                </th>
+
+                <th
+                  scope="col"
+                  style={{ maxWidth: "max-content", minWidth: 100 }}
+                >
                   Hành động
                 </th>
               </tr>
             </thead>
             <tbody>
-              {list.map((item, index) => (
-                <tr key={item.IdBaiHat}>
-                  <th scope="row">{item.index}</th>
-                  <td className="align-middle">{item.TenBaiHat}</td>
-                  <td className="align-middle">{item.TenCaSi}</td>
-                  <td className="align-middle">{item.IdChuDe}</td>
-                  <td className="align-middle">{item.IdThinhHanh}</td>
-                  <td className="align-middle">{item.LinkBaiHat}</td>
-                  <td className="align-middle">
-                    <button className="btn btn-link text-center p-1 text-secondary">
-                      <i className="far fa-eye me-2"></i>
-                    </button>
-                    <button className="btn btn-link text-center p-1 text-warning">
-                      <i className="fas fa-pencil-alt me-2"></i>
-                    </button>
-                    <button className="btn btn-link text-center p-1 text-danger">
-                      <i className="far fa-edit"></i>
-                    </button>
+              {isLoading && _size(list) === 0 && (
+                <tr>
+                  <td colSpan={12}>
+                    <div
+                      className="d-flex justify-content-center align-items-center w-full"
+                      style={{ height: 400 }}
+                    >
+                      <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </div>
                   </td>
                 </tr>
-              ))}
+              )}
+              {isSuccess &&
+                list.map((item, index) => (
+                  <tr key={item.IdBaiHat}>
+                    <th scope="row">{index + 1}</th>
+                    <td className="align-middle">{item.TenBaiHat}</td>
+                    <td className="align-middle">{item.TenCaSi}</td>
+                    <td className="align-middle">
+                      <img src={item.HinhAnh} alt={item.TenBaiHat} />
+                    </td>
+                    <td className="align-middle">{item.LinkBaiHat}</td>
+                    <td className="align-middle">
+                      {getInfo(category?.chude || [], "IdChuDe", item.IdChuDe)
+                        ?.TenChuDe || "_"}
+                    </td>
+                    <td className="align-middle">
+                      {getInfo(
+                        category?.thinhhanh || [],
+                        "IdThinhHanh",
+                        item.IdThinhHanh
+                      )?.TenThinhHanh || "_"}
+                    </td>
+                    <td className="align-middle">
+                      {getInfo(
+                        category?.phobien || [],
+                        "IdPhoBien",
+                        item.IdPhoBien
+                      )?.TenPhoBien || "_"}
+                    </td>
+                    <td className="align-middle">
+                      {getInfo(
+                        category?.playlist || [],
+                        "IdPlayList",
+                        item.IdPlayList
+                      )?.TenPlayList || "_"}
+                    </td>
+                    <td className="align-middle">
+                      <div className="d-flex">
+                        <button
+                          className="btn btn-link text-center p-1 text-secondary"
+                          onClick={() => {
+                            setDetail({
+                              detail: item,
+                              visible: true,
+                              type: "detail",
+                            });
+                          }}
+                        >
+                          <i className="far fa-eye me-2"></i>
+                        </button>
+                        <button
+                          className="btn btn-link text-center p-1 text-warning"
+                          onClick={() => {
+                            setDetail({
+                              detail: item,
+                              visible: true,
+                              type: "edit",
+                            });
+                          }}
+                        >
+                          <i className="fas fa-pencil-alt me-2"></i>
+                        </button>
+                        <button
+                          className="btn btn-link text-center p-1 text-danger"
+                          onClick={(e) => {
+                            setTooltip((prev) => {
+                              return {
+                                visible:
+                                  prev.target === e.target
+                                    ? !tooltip.visible
+                                    : true,
+                                target: e.target,
+                                id: item.IdBaiHat,
+                              };
+                            });
+                          }}
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
       </TemplateContent>
-      <ModalAddSong title="Thêm mới bài hát">
-        <div className="mb-3">
-          <label htmlFor="name_song" className="form-label">
-            Tên bài hát
-          </label>
-          <input type="text" className="form-control" id="name_song" />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="singer" className="form-label">
-            Ca sĩ
-          </label>
-          <input type="text" className="form-control" id="singer" />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="type_song" className="form-label">
-            Thể loại
-          </label>
-          <input type="text" className="form-control" id="type_song" />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="singer" className="form-label">
-            Top thịnh hành
-          </label>
-          <input type="text" className="form-control" id="singer" />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="file" className="form-label">
-            Chọn bài hát
-          </label>
-          <input className="form-control" type="file" id="file" />
-        </div>
-      </ModalAddSong>
+      <ModalSong
+        category={category}
+        detail={detail}
+        onClear={() => setDetail({ detail: {}, visible: false, type: "" })}
+      />
+      <CustomTooltip
+        content="Bạn có chắc muốn xóa bài hat này không?"
+        tooltip={tooltip}
+        loading={actionLoading}
+        onClose={onCloseTooltip}
+        onDelete={() => onDeleteSong(tooltip.id)}
+      />
     </>
   );
 }

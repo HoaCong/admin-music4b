@@ -11,7 +11,7 @@ import * as ActionTypes from "./constant";
 function* callApiList() {
   try {
     const response = yield call(() =>
-      axios.get(process.env.BE_API + "/getalluser.php")
+      axios.get(process.env.REACT_APP_BASE_URL + "/getalluser.php")
     );
     if (+response.data.success) {
       yield put(actionGetListSuccess(response.data.user_details.user_details));
@@ -27,7 +27,7 @@ function* callApiActive({ data }) {
     formData.append("username", data.UserName);
     formData.append("active", +!+data.active);
     const response = yield call(() =>
-      axios.post(process.env.BE_API + "/updateactive.php", formData)
+      axios.post(process.env.REACT_APP_BASE_URL + "/updateactive.php", formData)
     );
 
     if (+response.data.success) {

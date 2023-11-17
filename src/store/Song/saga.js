@@ -1,4 +1,5 @@
 import axios from "axios";
+import { parseFormData, parseSongItem } from "pages/ManageSong/helper";
 import { all, call, put, takeLatest, takeLeading } from "redux-saga/effects";
 import { addToast } from "store/Toast/action";
 import {
@@ -15,7 +16,7 @@ import * as ActionTypes from "./constant";
 function* callApiList() {
   try {
     const response = yield call(() =>
-      axios.get(process.env.BE_API + "http://localhost:3101/listsong")
+      axios.get(process.env.REACT_APP_BASE_URL + "/danhsachbaihatadmin.php")
     );
     if (response.status === 200) {
       yield put(actionGetListSuccess(response.data.success));
@@ -25,84 +26,105 @@ function* callApiList() {
   }
 }
 
-// function* callApiAdd({ params }) {
-//   try {
-//     const response = yield call("post", ENDPOINT.ADD_CATEGORY, params);
-//     yield put(actionAddSuccess(response.data.data));
-//     yield put(
-//       addToast({
-//         text: response.data.message,
-//         type: "success",
-//         title: "",
-//       })
-//     );
-//   } catch (error) {
-//     yield put(actionAddFailed(error.response.data.error));
-//     yield put(
-//       addToast({
-//         text: "Add category failed",
-//         type: "danger",
-//         title: "",
-//       })
-//     );
-//   }
-// }
+function* callApiAdd({ formData }) {
+  try {
+    const response = yield call(() =>
+      axios.post(
+        process.env.REACT_APP_BASE_URL + "/insertbaihat.php",
+        parseFormData(formData)
+      )
+    );
+    if (response.status === 200) {
+      console.log("function*callApiAdd  response:");
+      yield put(
+        actionAddSuccess(
+          parseSongItem({ ...formData, idbaihat: response.data.id })
+        )
+      );
+      yield put(
+        addToast({
+          text: "Cập nhật thành công",
+          type: "success",
+          title: "",
+        })
+      );
+    }
+  } catch (error) {
+    yield put(actionAddFailed(error));
+    yield put(
+      addToast({
+        text: "Cập nhật thất bại",
+        type: "danger",
+        title: "",
+      })
+    );
+  }
+}
 
-// function* callApiEdit({ params }) {
-//   try {
-//     const { id, name, image } = params;
-//     const response = yield call("puts", ENDPOINT.EDIT_CATEGORY + id, {
-//       name,
-//       image,
-//     });
-//     yield put(actionEditSuccess(response.data.data));
-//     yield put(
-//       addToast({
-//         text: response.data.message,
-//         type: "success",
-//         title: "",
-//       })
-//     );
-//   } catch (error) {
-//     yield put(actionEditFailed(error.response.data.error));
-//     yield put(
-//       addToast({
-//         text: "Update category failed",
-//         type: "danger",
-//         title: "",
-//       })
-//     );
-//   }
-// }
+function* callApiEdit({ formData }) {
+  try {
+    const response = yield call(() =>
+      axios.post(
+        process.env.REACT_APP_BASE_URL + "/updatebaihat.php",
+        parseFormData(formData)
+      )
+    );
+    if (response.status === 200) {
+      yield put(actionEditSuccess(parseSongItem(formData)));
+      yield put(
+        addToast({
+          text: "Cập nhật thành công",
+          type: "success",
+          title: "",
+        })
+      );
+    }
+  } catch (error) {
+    yield put(actionEditFailed(error));
+    yield put(
+      addToast({
+        text: "Cập nhật thất bại",
+        type: "danger",
+        title: "",
+      })
+    );
+  }
+}
 
-// function* callApiDelete({ id }) {
-//   try {
-//     const response = yield call("remove", ENDPOINT.DELETE_CATEGORY + id);
-//     yield put(actionDeleteSuccess(id));
-//     yield put(
-//       addToast({
-//         text: response.data.message,
-//         type: "success",
-//         title: "",
-//       })
-//     );
-//   } catch (error) {
-//     yield put(actionDeleteFailed(error.response.data.error));
-//     yield put(
-//       addToast({
-//         text: "Update category failed",
-//         type: "danger",
-//         title: "",
-//       })
-//     );
-//   }
-// }
+function* callApiDelete({ id }) {
+  try {
+    const formData = new FormData();
+    formData.append("idbaihat", id);
+    const response = yield call(() =>
+      axios.post(process.env.REACT_APP_BASE_URL + "/deletebaihat.php", formData)
+    );
+    if (response.status === 200) {
+      yield put(actionDeleteSuccess(id));
+      yield put(
+        addToast({
+          text: response.data.message,
+          type: "success",
+          title: "",
+        })
+      );
+    }
+  } catch (error) {
+    yield put(actionDeleteFailed(error.response.data.error));
+    yield put(
+      addToast({
+        text: "Update category failed",
+        type: "danger",
+        title: "",
+      })
+    );
+  }
+}
 
 export default function* songSaga() {
   yield all([
     yield takeLeading(ActionTypes.LIST, callApiList),
-    // yield takeLatest(ActionTypes.ADD, callApiAdd),
-    // yield takeLatest(ActionTypes.EDIT, callApiEdit),
-    // yield takeLatest(ActionTypes.DELETE, callApiDelete),
+    yield takeLatest(ActionTypes.ADD, callApiAdd),
+    yield takeLatest(ActionTypes.EDIT, callApiEdit),
+    yield takeLatest(ActionTypes.DELETE, callApiDelete),
   ]);
 }

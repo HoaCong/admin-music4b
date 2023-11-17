@@ -1,7 +1,7 @@
 import config from "config";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { actionLogout } from "store/Login/action";
 function Header() {
   const {
@@ -19,9 +19,9 @@ function Header() {
   };
   return (
     <nav className="navbar navbar-expand-lg px-3 navbar-light bg-secondary">
-      <a className="navbar-brand" href="/#">
-        Admin Dashboard
-      </a>
+      <Link className="navbar-brand text-white" to="/">
+        <b> Admin Music</b>
+      </Link>
       <div className="dropdown ms-auto">
         <a
           href="/#"

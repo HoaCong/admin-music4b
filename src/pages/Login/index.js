@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { actionLogin } from "store/Login/action";
-import "./index.css";
 function Login() {
   // state store
   const loginState = useSelector((state) => state.loginReducer);

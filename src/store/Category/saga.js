@@ -8,7 +8,7 @@ import * as ActionTypes from "./constant";
 function* callApiListCategory() {
   try {
     const response = yield call(() =>
-      axios.get(process.env.BE_API + "/getcategory.php")
+      axios.get(process.env.REACT_APP_BASE_URL + "/getcategory.php")
     );
     if (response.status === 200) {
       yield put(actionGetListSuccess(response.data));

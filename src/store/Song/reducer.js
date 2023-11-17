@@ -7,7 +7,6 @@ const initialState = {
   listStatus: { ...status },
   actionStatus: { ...status },
   list: [],
-  category: [],
 };
 
 const songReducer = (state = initialState, action) => {
@@ -58,7 +57,7 @@ const songReducer = (state = initialState, action) => {
         draft.actionStatus.isLoading = false;
         draft.actionStatus.isSuccess = true;
         draft.list = state.list.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.IdBaiHat === action.payload.IdBaiHat ? action.payload : item
         );
         break;
 
@@ -76,7 +75,7 @@ const songReducer = (state = initialState, action) => {
       case ActionTypes.DELETE_SUCCESS:
         draft.actionStatus.isLoading = false;
         draft.actionStatus.isSuccess = true;
-        draft.list = state.list.filter((item) => item.id !== action.id);
+        draft.list = state.list.filter((item) => item.IdBaiHat !== action.id);
         break;
 
       case ActionTypes.DELETE_FAILED:
